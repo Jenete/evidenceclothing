@@ -64,4 +64,15 @@ const app = initializeApp(firebaseConfig);
   
     return productElement;
   }
+
+//   function closePopup() {
+//     var popup = document.getElementById('popup');
+//     popup.classList.remove('show');
+//   }
+//   document.getElementById("closePopup").addEventListener('click',()=> {closePopup;});
+//  setInterval(function() {
+//     var popup = document.getElementById('popup');
+//     popup.classList.add('show');
+//   },2000);
+
   
