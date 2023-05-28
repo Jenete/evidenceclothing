@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getFirestore , collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import { getFirestore , collection, getDocs, doc, getDoc, setDoc, updateDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -75,4 +75,70 @@ const app = initializeApp(firebaseConfig);
 //     popup.classList.add('show');
 //   },2000);
 
+async function countVisits() {
+  let userLocation = "Denied locator";
+  console.log("Counting visits...");
+  try {
+    // Get the current user's location
+    userLocation = await getUserLocation();
+
+    
+  } catch (error) {
+    console.log('User denied geo location use manual count', error);
+  }
+  try {
+    // Get the current timestamp
+    const timestamp = serverTimestamp();
+
+    // Increment the visit count in the 'visits' collection
+    const visitRef = doc(db, 'visits', 'visitCount');
+    const visitDoc = await getDoc(visitRef);
+
+    if (visitDoc.exists()) {
+      const count = visitDoc.data().count + 1;
+      await updateDoc(visitRef, { count });
+    } else {
+      await setDoc(visitRef, { count: 1 });
+    }
+
+    // Save the visit details in a separate collection called 'visits'
+    const visitDetailsRef = collection(db, 'visits');
+    await addDoc(visitDetailsRef, {
+      location: userLocation,
+      timestamp: timestamp
+    });
+
+    console.log('Visit details saved successfully'+{
+      location: userLocation,
+      timestamp: timestamp
+    });
+
+  } catch (err) {
+    console.log("Firebase error counting visits:\n"+err);
+  }
+}
+
+// Function to get user's location
+function getUserLocation() {
+  return new Promise((resolve, reject) => {
+    // Implement your logic to retrieve user's location (example: using geolocation API)
+    // Replace the following code with your actual implementation
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        resolve({ latitude, longitude });
+      },
+      error => {
+        reject(error);
+      }
+    );
+  });
+}
+
+// Call the countVisits function when the page loads or when the user performs an action
+setTimeout(async ()=>{
+  await countVisits();
+},3000);
   
