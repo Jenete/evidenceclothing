@@ -16,12 +16,19 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
-
+<!-- Loading screen -->
+<div id="loading-screen">
+  <h1 id="loading-text">Deskly by Jenete</h1>
+</div>
   <!-- Rest of your website content here -->
 
   <div class="content">
     <!-- Main content of your website here -->
-    <h1>The Buzz (aka Updates):</h1>
+    
+    <h1>The Buzz - Updates</h1>
+    <div id="CarouselBorder">
+
+    
     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -48,6 +55,7 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
+  </div>
     <h1>Our Merch in 2023!!</h1>
   <div id="product-grid">
     
@@ -76,12 +84,12 @@
       <p>
         You can reach out to us via email or phone. Our customer support team is available to assist you.
       </p>
-      <p>Email: contact@example.com</p>
-      <p>Phone: +1 123-456-7890</p>
+      <p>Email: sibabaloevidencenatemba@gmail.com</p>
+      <p>Phone: 0604494066</p>
       <div class="social-icons">
-        <a href="#" class="social-icon"><i class="fab fa-whatsapp">+1 123-456-7890</i></a>
-        <a href="#" class="social-icon"><i class="fab fa-facebook">evidence_clothingsa</i></a>
-        <a href="#" class="social-icon"><i class="fab fa-instagram">evidence_clothingsa</i></a>
+        <a href="https://wa.me/0604494066" class="social-icon"><i class="fab fa-whatsapp"> 060 449 4066</i></a>
+        <a href="https://www.facebook.com/profile.php?id=100063753285881" class="social-icon"><i class="fab fa-facebook"> evidence_clothingsa</i></a>
+        <a href="https://www.facebook.com/profile.php?id=100063753285881" class="social-icon"><i class="fab fa-instagram"> evidence_clothingsa</i></a>
       </div>
       <br><br>
     </div>
@@ -92,11 +100,13 @@
     <div class="footer-content">
       <p>&copy; 2023 Evidence Clothing . All rights reserved.</p>
       
-      <div class="footer-links">
+      <!-- <div class="footer-links">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms of Service</a>
         <a href="#">Contact Us</a>
-      </div>
+      </div> -->
+      <br>
+      <a href="./admin.html">Switch to admin</a>
       <p>A.L Jenete developed it</p>
     </div>
     <div class="social-icons">
@@ -120,10 +130,11 @@
       </div>
       <div class="modal-body">
         <div class="product">
-          <div id="imageTitle">
+          <h2 id="imageTitle">
 
-          </div>
+          </h2>
           <img id="image" src="" alt="item">
+          <p id="description"></p>
         </div>
       </div>
       <div class="modal-footer">
@@ -138,7 +149,7 @@
   <div class="popup-content">
     <h2>Like what you see!</h2>
     <p>Get yours in a day and seconds, contact: 0740243108</p>
-    <button onclick="closePopup()">Close</button>
+    <button id="closePopup">Close</button>
   </div>
 </div>
   <!-- <script src="firebase-config.js"></script> -->

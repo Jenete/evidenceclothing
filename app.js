@@ -44,8 +44,12 @@ const app = initializeApp(firebaseConfig);
     productElement.appendChild(titleElement);
 
     const descElement = document.createElement("p");
-    descElement.textContent = "Price: R400\t Size: M|S|XL";
+    descElement.textContent = product.description;
     productElement.appendChild(descElement);
+
+    const price = document.createElement("h3");
+    price.textContent = product.price;
+    productElement.appendChild(price);
 
     const buttonElement = document.createElement("btn");
     buttonElement.textContent = "View item";
@@ -56,6 +60,7 @@ const app = initializeApp(firebaseConfig);
     productElement.addEventListener("click",()=>{
         document.getElementById("imageTitle").innerHTML = product.title;
         document.getElementById("image").src = product.imageUrl;
+        document.getElementById("description").innerHTML = product.description;
         document.getElementById("viewItem").click();
 
         
@@ -141,4 +146,12 @@ function getUserLocation() {
 setTimeout(async ()=>{
   await countVisits();
 },3000);
+// Hide the loading screen when the page is fully loaded
+window.addEventListener("load", function() {
+  this.setTimeout(()=>{
+      var loadingScreen = document.getElementById("loading-screen");
+      loadingScreen.style.display = "none";
+  },3000)
+  
+});
   

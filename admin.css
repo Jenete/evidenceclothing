@@ -1,0 +1,273 @@
+
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+
+    
+    
+    
+   
+    #imagePreview {
+        max-width: 500px;
+        margin: 30px;
+        border-radius: 3px outset rgb(221, 187, 221);
+        overflow-y: visible;
+        overflow-x: scroll;
+        align-items: center;
+      }
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    section {
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+    }
+    
+    form label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+    }
+    
+    form button {
+      background-color: #008CBA;
+    }
+    
+    @media screen and (min-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    
+      .button-container {
+        flex-direction: column;
+      }
+    
+      button {
+        width: 100%;
+      }
+    
+      section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    
+      form input,
+      form textarea {
+        max-width: 400px;
+      }
+    
+      form button {
+        max-width: 200px;
+      }
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        overflow: auto;
+      }
+      
+    .modal-content {
+    background-color: #e8dfdf;
+    margin: 10% auto;
+    padding: 20px;
+    border: 3px solid #b2afaf;
+    max-width: 300px;
+    position: relative;
+    text-align: center;
+    }
+      
+      .close {
+        color: #aaa;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        cursor: pointer;
+      }
+      
+      .close:hover {
+        color: #000;
+      }
+      
+     
+      
+      #modalTitle {
+        margin-top: 0;
+      }
+      
+      #modalDescription,
+      #modalPrice {
+        margin: 10px 0;
+      }
+      #modalImage{
+        width: 60%;
+        height: auto;
+        border-radius: 3px inset;
+      }
+      #modalPrice {
+        font-weight: bold;
+      }
+
+      #progressBar {
+        display: none;
+        height: 5px;
+        width: 100%;
+        background-color: #e0e0e0;
+      }
+      
+      #progressBar[value] {
+        display: block;
+      }
+      
+      #progressBar::-webkit-progress-bar {
+        background-color: #e0e0e0;
+      }
+      
+      #progressBar::-webkit-progress-value {
+        background-color: #4caf50;
+      }
+      
+      #progressBar::-moz-progress-bar {
+        background-color: #4caf50;
+      }
+      
+/* Navbar styles */
+nav {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    padding-left: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Elevation */
+  }
+  
+  nav h1 {
+    margin: 11px;
+    font-size: 20px;
+  }
+  
+  nav h1 sub {
+    font-size: 12px;
+    font-style: italic;
+  }
+  
+  nav .button-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  nav button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Extra styling for a cooler look */
+  nav {
+    position: relative;
+    z-index: 1;
+  }
+  
+  nav::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1;
+    background-color: #fff;
+    opacity: 0.1;
+    border-radius: 50%;
+  }
+  
+  nav:hover::before {
+    opacity: 0.2;
+  }
+  
+  nav::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: linear-gradient(45deg, #4caf50, #3498db);
+    opacity: 0.3;
+  }
+  
+/* Styles for loading screen */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f8f8f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  #loading-text {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    animation: loading-animation 1s ease-in-out infinite;
+  }
+
+  /* Animation keyframes */
+  @keyframes loading-animation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  } 

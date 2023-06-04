@@ -26,6 +26,8 @@ nav {
   list-style: none;
   margin: 0;
   padding: 0;
+  font-size: 36px;
+  font-weight: bold;
 }
 
 .nav-links li {
@@ -51,7 +53,7 @@ nav {
   }
 
   .logo {
-    font-size: 80px;
+    font-size: 100px;
   }
 
   .nav-active {
@@ -139,7 +141,24 @@ footer {
 }
 
 #image:hover {
-  transform: scale(1.1);
+  transform: scale(1.9);
+}
+#image {
+  width: 100%;
+  max-height: 1000px;
+  animation: scaleAndSpin 3s ease-in-out;
+}
+
+@keyframes scaleAndSpin {
+  0% {
+    transform: scale(1) rotateY(0deg);
+  }
+  50% {
+    transform: scale(0.5) rotateY(180deg);
+  }
+  100% {
+    transform: scale(1) rotateY(360deg);
+  }
 }
 
 .footer-content {
@@ -204,26 +223,32 @@ footer {
   color: #f9f9f9;
   
 }
-
+.content img{
+  max-width: 500px;
+  max-height: 600px;
+}
 .social-icon:hover {
   color: #007bff;
 }
 
 #carouselExample {
-  width: 60%;
-  height: 50%;
-  margin: 100px;
-  margin-top: 20px;
+  width: 100%;
   display: flex;
   justify-content: center;
-  margin-left: 12rem;
+  
   
 }
-
-#carouselExample img {
-  width: 80%;
+#CarouselBorder{
+  max-width: 500px;
   overflow-x: scroll;
+  overflow-y: visible;
+  padding: 15px;
+  border: 15px #cff7ef outset;
+  background-color: #b2cac5;
+  border-radius: 10%;
+  margin: auto;
 }
+
 
 .about-section {
   position: relative;
@@ -285,3 +310,37 @@ footer {
   opacity: 1;
   pointer-events: auto;
 }
+/* Styles for loading screen */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#loading-text {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  animation: loading-animation 1s ease-in-out infinite;
+}
+
+/* Animation keyframes */
+@keyframes loading-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+} 

@@ -1,0 +1,107 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="admin.css">
+    <title>Admin Work</title>
+</head>
+<body>
+    <nav>
+        <h1>Deskly <sub><small><i>by Jenete</i></small> </sub></h1>
+        <div class="button-container">
+          <button id="viewButton">View Onpage</button>
+          <button id="editButton">Edit/Update</button>
+        </div>
+      </nav>
+      <!-- Loading screen -->
+        <div id="loading-screen">
+            <h1 id="loading-text">Deskly by Jenete</h1>
+        </div>
+      <section>
+        <h2>Upload Product</h2>
+        <form id="uploadForm">
+            <img id="imagePreview" src="#" alt="Preview" style="display: none;"><br>
+            <label for="picture">Picture:</label>
+            <input type="file" id="picture" name="picture" accept="image/*" onchange="previewImage(event)">
+            
+            <label for="itemTitle">Title</label>
+            <input type="text" id="itemTitle" name="itemTitle">
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" placeholder="E.g., Available in sizes: | Color: | "></textarea>
+            
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" placeholder="R">
+            
+            <button type="submit" id="doneButton">Done</button>
+            
+        </form>
+        <progress id="progressBar" value="0" max="100"></progress>
+        <div id="previewModal" class="modal">
+            <label>Successfully added!</label>
+            <div class="modal-content">
+              <span id="closeModalButton" class="close">&times;</span>
+              <img id="modalImage" src="#" alt="Preview">
+              <h3 id="modalTitle"></h3>
+              <p id="modalDescription"></p>
+              <p id="modalPrice"></p>
+            </div>
+        </div>
+          
+      </section>
+
+      <script>
+        // Add your JavaScript code here
+    
+        // Get references to the buttons and form
+        const viewButton = document.getElementById('viewButton');
+        const editButton = document.getElementById('editButton');
+        const uploadForm = document.getElementById('uploadForm');
+    
+        // Attach event listeners to the buttons and form
+        viewButton.addEventListener('click', onViewButtonClick);
+        editButton.addEventListener('click', onEditButtonClick);
+        uploadForm.addEventListener('submit', onUploadFormSubmit);
+        // Function to handle "View Onpage" button click
+        function onViewButtonClick(event) {
+        event.preventDefault();
+        // Add your logic here to view the page onpage
+        }
+
+        // Function to handle "Edit/Update" button click
+        function onEditButtonClick(event) {
+        event.preventDefault();
+        // Add your logic here to enable editing and updating
+        }
+
+        // Function to handle form submission
+        function onUploadFormSubmit(event) {
+        event.preventDefault();
+        // Add your logic here to handle the form submission
+        }
+
+        function previewImage(event) {
+            const fileInput = event.target;
+            const imagePreview = document.getElementById('imagePreview');
+            
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                }
+
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                imagePreview.src = '#';
+                imagePreview.style.display = 'none';
+            }
+        }
+
+        
+  </script>
+  <script type="module" src="adminJS.js"></script>
+</body>
+</html>
