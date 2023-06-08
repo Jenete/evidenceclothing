@@ -145,13 +145,11 @@ function getUserLocation() {
 // Call the countVisits function when the page loads or when the user performs an action
 setTimeout(async ()=>{
   await countVisits();
-},3000);
+},5000);
 // Hide the loading screen when the page is fully loaded
-window.addEventListener("load", function() {
-  this.setTimeout(()=>{
+setTimeout(()=>{
       var loadingScreen = document.getElementById("loading-screen");
       loadingScreen.style.display = "none";
-  },3000)
-  
-});
+  },1500)
+
   

@@ -215,10 +215,8 @@ function displayPreviewModal(data) {
     uploadForm.reset();
   }
   // Hide the loading screen when the page is fully loaded
-  window.addEventListener("load", function() {
-    this.setTimeout(()=>{
-        var loadingScreen = document.getElementById("loading-screen");
-        loadingScreen.style.display = "none";
-    },3000)
-    
-  });
+
+setTimeout(()=>{
+    var loadingScreen = document.getElementById("loading-screen");
+    loadingScreen.style.display = "none";
+},3000)

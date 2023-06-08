@@ -141,7 +141,7 @@ footer {
 }
 
 #image:hover {
-  transform: scale(1.9);
+  transform: scale(1.1);
 }
 #image {
   width: 100%;
@@ -223,10 +223,15 @@ footer {
   color: #f9f9f9;
   
 }
-.content img{
+.content img, iframe{
   max-width: 500px;
   max-height: 600px;
 }
+.content iframe{
+  width: 500px;
+  height: 600px;
+}
+
 .social-icon:hover {
   color: #007bff;
 }
@@ -243,8 +248,8 @@ footer {
   overflow-x: scroll;
   overflow-y: visible;
   padding: 15px;
-  border: 15px #cff7ef outset;
-  background-color: #b2cac5;
+  border: 15px #414341 outset;
+  background-color: #000000;
   border-radius: 10%;
   margin: auto;
 }
