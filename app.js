@@ -1,8 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getFirestore , collection, getDocs, doc, getDoc, setDoc, updateDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,81 +14,76 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-  // Retrieve data from Firebase and populate the product grid
-  const productGrid = document.getElementById("product-grid");
-  const db = getFirestore(app)
-  // Assuming you have a "products" collection in your Firebase database
-  const q = collection(db ,"products");
-  const productsRef = await getDocs(q);
-  // Listen for changes in the collection
-  productGrid.innerHTML = ""; // Clear the product grid
-  productsRef.forEach((doc) => {
+const db = getFirestore(app);
+
+// Retrieve data from Firebase and populate the product grid
+const productGrid = document.getElementById("product-grid");
+
+async function fetchProducts() {
+  try {
+    const q = collection(db, "products");
+    const productsRef = await getDocs(q);
+
+    productGrid.innerHTML = ""; // Clear the product grid
+    productsRef.forEach((doc) => {
       const productData = doc.data();
       const productElement = createProductElement(productData);
       productGrid.appendChild(productElement);
-  });
-  
-  // Function to create a product element
-  function createProductElement(product) {
-    const productElement = document.createElement("div");
-    productElement.classList.add("product");
-  
-    const imageElement = document.createElement("img");
-    imageElement.src = product.imageUrl;
-    productElement.appendChild(imageElement);
-  
-    const titleElement = document.createElement("h3");
-    titleElement.textContent = product.title;
-    productElement.appendChild(titleElement);
+    });
 
-    const descElement = document.createElement("p");
-    descElement.textContent = product.description;
-    productElement.appendChild(descElement);
-
-    const price = document.createElement("h3");
-    price.textContent = product.price;
-    productElement.appendChild(price);
-
-    const buttonElement = document.createElement("btn");
-    buttonElement.textContent = "View item";
-    buttonElement.classList.add("btn");
-    buttonElement.classList.add("btn-dark");
-    productElement.appendChild(buttonElement);
-    
-    productElement.addEventListener("click",()=>{
-        document.getElementById("imageTitle").innerHTML = product.title;
-        document.getElementById("image").src = product.imageUrl;
-        document.getElementById("description").innerHTML = product.description;
-        document.getElementById("viewItem").click();
-
-        
-    })
-    // You can add more details such as price, description, etc.
-  
-    return productElement;
+  } catch (error) {
+    console.error("Error fetching products:", error);
   }
+}
 
-//   function closePopup() {
-//     var popup = document.getElementById('popup');
-//     popup.classList.remove('show');
-//   }
-//   document.getElementById("closePopup").addEventListener('click',()=> {closePopup;});
-//  setInterval(function() {
-//     var popup = document.getElementById('popup');
-//     popup.classList.add('show');
-//   },2000);
+// Function to create a product element
+function createProductElement(product) {
+  const productElement = document.createElement("div");
+  productElement.classList.add("product");
 
+  const imageElement = document.createElement("img");
+  imageElement.src = product.imageUrl;
+  productElement.appendChild(imageElement);
+
+  const titleElement = document.createElement("h3");
+  titleElement.textContent = product.title;
+  productElement.appendChild(titleElement);
+
+  const descElement = document.createElement("p");
+  descElement.textContent = product.description;
+  productElement.appendChild(descElement);
+
+  const priceElement = document.createElement("h3");
+  priceElement.textContent = `${product.price}`;
+  productElement.appendChild(priceElement);
+
+  const buttonElement = document.createElement("button");
+  buttonElement.textContent = "View Item";
+  buttonElement.classList.add("btn");
+  buttonElement.classList.add("btn-dark");
+  productElement.appendChild(buttonElement);
+
+  productElement.addEventListener("click", () => {
+    document.getElementById("imageTitle").innerHTML = product.title;
+    document.getElementById("image").src = product.imageUrl;
+    document.getElementById("description").innerHTML = product.description;
+    document.getElementById("viewItem").click();
+  });
+
+  return productElement;
+}
+
+// Function to count visits
 async function countVisits() {
-  let userLocation = "Denied locator";
-  console.log("Counting visits...");
+  let userLocation = "Unknown location";
+
   try {
     // Get the current user's location
     userLocation = await getUserLocation();
-
-    
   } catch (error) {
-    console.log('User denied geo location use manual count', error);
+    console.error('Error retrieving user location:', error);
   }
+
   try {
     // Get the current timestamp
     const timestamp = serverTimestamp();
@@ -113,22 +106,19 @@ async function countVisits() {
       timestamp: timestamp
     });
 
-    console.log('Visit details saved successfully'+{
+    console.log('Visit details saved successfully:', {
       location: userLocation,
       timestamp: timestamp
     });
 
-  } catch (err) {
-    console.log("Firebase error counting visits:\n"+err);
+  } catch (error) {
+    console.error("Firebase error counting visits:", error);
   }
 }
 
-// Function to get user's location
+// Function to get user's location (example implementation)
 function getUserLocation() {
   return new Promise((resolve, reject) => {
-    // Implement your logic to retrieve user's location (example: using geolocation API)
-    // Replace the following code with your actual implementation
-
     navigator.geolocation.getCurrentPosition(
       position => {
         const latitude = position.coords.latitude;
@@ -142,14 +132,14 @@ function getUserLocation() {
   });
 }
 
-// Call the countVisits function when the page loads or when the user performs an action
-setTimeout(async ()=>{
+// Call functions on page load or user action
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchProducts();
   await countVisits();
-},5000);
-// Hide the loading screen when the page is fully loaded
-setTimeout(()=>{
-      var loadingScreen = document.getElementById("loading-screen");
-      loadingScreen.style.display = "none";
-  },1500)
+});
 
-  
+// Hide the loading screen when the page is fully loaded
+window.addEventListener("load", () => {
+  const loadingScreen = document.getElementById("loading-screen");
+  loadingScreen.style.display = "none";
+});
