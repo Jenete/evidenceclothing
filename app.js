@@ -1,6 +1,16 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -25,49 +35,59 @@ async function fetchProducts() {
     const productsRef = await getDocs(q);
 
     productGrid.innerHTML = ""; // Clear the product grid
-    productsRef.forEach((doc) => {
-      const productData = doc.data();
-      const productElement = createProductElement(productData);
+    let i = 0;
+    productsRef.forEach((docSnap) => {
+      const productData = docSnap.data();
+      const productElement = createProductElement(productData, i);
       productGrid.appendChild(productElement);
+      i++;
     });
-
   } catch (error) {
     console.error("Error fetching products:", error);
   }
 }
 
 // Function to create a product element
-function createProductElement(product) {
+function createProductElement(product, index = 0) {
   const productElement = document.createElement("div");
   productElement.classList.add("product");
 
+  // Staggered animation delay
+  productElement.style.animationDelay = `${index * 0.07}s`;
+
   const imageElement = document.createElement("img");
-  imageElement.src = product.imageUrl;
+  imageElement.src = product.imageUrl || "";
+  imageElement.alt = product.title || "Product image";
   productElement.appendChild(imageElement);
 
   const titleElement = document.createElement("h3");
-  titleElement.textContent = product.title;
+  titleElement.textContent = product.title || "Item";
   productElement.appendChild(titleElement);
 
   const descElement = document.createElement("p");
-  descElement.textContent = product.description;
+  descElement.textContent = product.description || "";
   productElement.appendChild(descElement);
 
   const priceElement = document.createElement("h3");
-  priceElement.textContent = `${product.price}`;
+  priceElement.textContent = product.price ? `R ${product.price}` : "";
   productElement.appendChild(priceElement);
 
   const buttonElement = document.createElement("button");
   buttonElement.textContent = "View Item";
-  buttonElement.classList.add("btn");
-  buttonElement.classList.add("btn-dark");
+  buttonElement.classList.add("btn", "btn-dark");
   productElement.appendChild(buttonElement);
 
+  // When card is clicked, open modal
   productElement.addEventListener("click", () => {
-    document.getElementById("imageTitle").innerHTML = product.title;
-    document.getElementById("image").src = product.imageUrl;
-    document.getElementById("description").innerHTML = product.description;
-    document.getElementById("viewItem").click();
+    document.getElementById("imageTitle").innerHTML = product.title || "Item";
+    document.getElementById("image").src = product.imageUrl || "";
+    document.getElementById("description").innerHTML = product.description || "";
+
+    // trigger bootstrap modal
+    const triggerButton = document.getElementById("viewItem");
+    if (triggerButton) {
+      triggerButton.click();
+    }
   });
 
   return productElement;
@@ -81,36 +101,26 @@ async function countVisits() {
     // Get the current user's location
     userLocation = await getUserLocation();
   } catch (error) {
-    console.error('Error retrieving user location:', error);
+    console.error("Error retrieving user location:", error);
   }
 
   try {
-    // Get the current timestamp
     const timestamp = serverTimestamp();
-
-    // Increment the visit count in the 'visits' collection
-    const visitRef = doc(db, 'visits', 'visitCount');
+    const visitRef = doc(db, "visits", "visitCount");
     const visitDoc = await getDoc(visitRef);
 
     if (visitDoc.exists()) {
-      const count = visitDoc.data().count + 1;
+      const count = (visitDoc.data().count || 0) + 1;
       await updateDoc(visitRef, { count });
     } else {
       await setDoc(visitRef, { count: 1 });
     }
 
-    // Save the visit details in a separate collection called 'visits'
-    const visitDetailsRef = collection(db, 'visits');
+    const visitDetailsRef = collection(db, "visits");
     await addDoc(visitDetailsRef, {
       location: userLocation,
       timestamp: timestamp
     });
-
-    console.log('Visit details saved successfully:', {
-      location: userLocation,
-      timestamp: timestamp
-    });
-
   } catch (error) {
     console.error("Firebase error counting visits:", error);
   }
@@ -119,16 +129,36 @@ async function countVisits() {
 // Function to get user's location (example implementation)
 function getUserLocation() {
   return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      return reject(new Error("Geolocation not supported"));
+    }
+
     navigator.geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
         resolve({ latitude, longitude });
       },
-      error => {
+      (error) => {
         reject(error);
       }
     );
+  });
+}
+
+// Simple popup show
+function initPopup() {
+  const popup = document.getElementById("popup");
+  if (!popup) return;
+
+  // Show after a delay
+  setTimeout(() => {
+    popup.classList.add("active");
+  }, 8000);
+
+  // Hide on click anywhere on overlay
+  popup.addEventListener("click", () => {
+    popup.classList.remove("active");
   });
 }
 
@@ -136,10 +166,12 @@ function getUserLocation() {
 document.addEventListener("DOMContentLoaded", async () => {
   await fetchProducts();
   await countVisits();
+  initPopup();
 });
 
 // Hide the loading screen when the page is fully loaded
 window.addEventListener("load", () => {
   const loadingScreen = document.getElementById("loading-screen");
-  loadingScreen.style.display = "none";
+  if (!loadingScreen) return;
+  loadingScreen.classList.add("hidden");
 });
